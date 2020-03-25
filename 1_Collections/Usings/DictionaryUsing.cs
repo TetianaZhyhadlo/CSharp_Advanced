@@ -16,78 +16,37 @@ namespace ITEA_Collections.Usings
 
         public void Add(object ts)
         {
-            Dictionary.Add(Dictionary.Count + 1, ts.ToString());
+            throw new NotImplementedException();
         }
 
         public void AddMany(object[] ts)
         {
-            if (ts is null)
-                Console.WriteLine($"Your array is null!", ConsoleColor.Red);
-            else
-            {
-                for (int i = 0; i < ts.Length; i++)
-                {
-                    Dictionary.Add(Dictionary.Count + 1, ts[i].ToString());
-                }
-
-            }
+            throw new NotImplementedException();
         }
 
         public void Clear()
         {
-            Dictionary.Clear();
+            throw new NotImplementedException();
         }
 
         public object[] GetAll()
         {
-            object[] all = new object[Dictionary.Count * 2];
-            int i = 0;
-            foreach (KeyValuePair<int, string> element in Dictionary)
-            {
-                all[i] = element.Key;
-                i++;
-                all[i] = element.Value;
-                i++;
-
-            }
-            return all;
+            throw new NotImplementedException();
         }
 
         public object GetByID(int index)
         {
-
-            try
-            {
-                return Dictionary[index];
-            }
-            catch (Exception except)
-            {
-                Console.WriteLine(except.GetType().Name + except.Message);
-                Console.WriteLine($"there is no element with index: {index}", ConsoleColor.Red);
-                return null;
-            }
+            throw new NotImplementedException();
         }
 
         public void RemoveByID(int index)
         {
-            try
-            {
-                Dictionary.Remove(index);
-                Console.WriteLine($"The element index {index} is removed.");
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Something went wrong", ConsoleColor.Red);
-            }
+            throw new NotImplementedException();
         }
 
         public void ShowAll()
         {
-            foreach (KeyValuePair<int, string> element in Dictionary)
-            {
-                Console.WriteLine($"Key:- {element.Key} and Value:- {element.Value}");
-
-            }
+            throw new NotImplementedException();
         }
     }
 }
