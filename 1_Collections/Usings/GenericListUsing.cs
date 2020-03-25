@@ -85,6 +85,7 @@ namespace ITEA_Collections.Usings
             {
                 List.Insert(index, ts[i].ToString());
                 index++;
+
             }
         }
     }

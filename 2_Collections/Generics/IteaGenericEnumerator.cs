@@ -37,6 +37,7 @@ namespace ITEA_Collections.Generics
         public void Reset()
         {
             curIndex = -1; 
+
         }
         #endregion
     }

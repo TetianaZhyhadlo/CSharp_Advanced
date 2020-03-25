@@ -36,6 +36,7 @@ namespace ITEA_Collections
 
             //List<string> a1 = new List<string>();
             //new Dictionary<object, object>();
+
         }
 
         static void BaseExamples()

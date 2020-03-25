@@ -34,7 +34,6 @@ namespace ITEA_Collections.Generics
         public T[] GetAll()
         {
             return collection.GetRange(0, collection.Count).ToArray();
-
         }
 
         public T GetByID(int index)

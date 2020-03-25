@@ -86,6 +86,7 @@ namespace ITEA_Collections.Usings
             foreach (KeyValuePair<int, string> element in Dictionary)
             {
                 Console.WriteLine($"Key:- {element.Key} and Value:- {element.Value}");
+
             }
         }
     }
