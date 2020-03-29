@@ -9,7 +9,7 @@ namespace ITEA_Collections.Usings
 {
     internal class ArrayListUsing : IBaseCollectionUsing
     {
-        public ArrayList List { get; set; }
+        public ArrayList List { get; set; } = null;
 
         public ArrayListUsing()
         {
