@@ -1,4 +1,7 @@
-﻿using System;
+﻿using StrategyGame.Actions;
+using StrategyGame.Warriors.Models;
+using StrategyGame.Warriors.Models.Infantry;
+using System;
 using System.Collections.Generic;
 
 using static ITEA_Collections.Common.Extensions;
@@ -10,7 +13,7 @@ namespace StrategyGame
     {
         static void Main(string[] args)
         {
-            /*
+            
             List<Gunner> gunners = new List<Gunner>();
             for (int i = 0; i < 15; i++)
                 gunners.Add(new Gunner());
@@ -23,6 +26,10 @@ namespace StrategyGame
             for (int i = 0; i < 18; i++)
                 bowmen.Add(new Bowman());
 
+            List<Knight> knight = new List<Knight>();
+            for (int i = 0; i < 20; i++)
+                knight.Add(new Knight());
+
             var battle1 = new Battle<Gunner, Pikeman>(gunners, pikemen);
             ToConsole(battle1.CountResults(), ConsoleColor.Green);
 
@@ -31,7 +38,10 @@ namespace StrategyGame
 
             var battle3 = new RangeBattle(gunners, bowmen);
             ToConsole(battle3.CountResults(), ConsoleColor.Green);
-            */
+
+            var battle4 = new RangeBattle(knight, bowmen);
+            ToConsole(battle4.CountResults(), ConsoleColor.Green);
+
 
             Guid a = new Guid();
             Guid b = Guid.NewGuid();
