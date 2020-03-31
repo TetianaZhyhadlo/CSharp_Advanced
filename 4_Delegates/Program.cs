@@ -14,15 +14,19 @@ namespace IteaDelegates
             #region Test
             Account a1 = new Account("Harry");
             Account a2 = new Account("Ron");
+            Account a3 = new Account("Elen");
             SpyNotifications spy = new SpyNotifications(a2);
             a1.Send(a1.CreateMessage("Hi, Ann! How are you?", a2));
             a1.Send(a1.CreateMessage("I'm Alex, from Kyiv", a2));
             a2.Send(a2.CreateMessage("Hi, Alex! I'm from Lviv", a1));
             a1.ShowDialog(a2.Username);
             a1.Subscribe(a1);
-            a1.AddToGroup("Family");
-            Console.WriteLine()
-
+            a1.CreateGroup("Family");
+            a1.AddToGroup("Family", a2);
+            a1.AddToGroup("Family", a3);
+            a1.SendMessageToGroup(a1, new OnSendEventArgs("Hello", a1.Username, "Family"));
+            a1.ShowDialog(a3.Username);
+            
             #endregion
 
             //Lesson lesson = new Lesson();

@@ -12,9 +12,9 @@ namespace IteaDelegates.IteaMessanger
     public class Account
     {
         public string Username { get; private set; }
+        public List<Groups> GroupList { get; set; }// список груп Account
 
         public List<Message> Messages { get; set; }
-       // public List<Account> GroupName { get; private set; }
 
         public event OnSend OnSend;
         public Account User { get; set; }
@@ -25,7 +25,7 @@ namespace IteaDelegates.IteaMessanger
         {
             Username = username;
             Messages = new List<Message>();
-           // GroupName = new List<Account>();
+            GroupList = new List<Groups>();
             NewMessage += OnNewMessage;
         }
 
@@ -35,8 +35,7 @@ namespace IteaDelegates.IteaMessanger
             Messages.Add(message);
             return message;
         }
-
-        public void Send(Message message)
+          public void Send(Message message)
         {
             message.Send = true;
             message.To.Messages.Add(message);
@@ -66,42 +65,71 @@ namespace IteaDelegates.IteaMessanger
             }
             ToConsole($"---{string.Concat(str.Select(x => "-"))}---");
         }
-        public void Subscribe(Account user)
+        public void Subscribe(Account user)//Подписка на сообщение в группе
         {     
             User = user;
             User.OnSend += SendMessageToGroup;
         }
 
 
-        public void SendMessageToGroup(object sender, OnSendEventArgs e)
+        public void SendMessageToGroup(object sender, OnSendEventArgs e)//отправка сообщения в группу
         {
-            var myGroup = new Groups(e.To);
-            foreach (var item in myGroup.Group)
-                NewMessage += Send;
-
-        }
-         public void CreateGroup(string name)
-         {
-             Groups newGroup = new Groups(name);
-
-         }
-        public void AddToGroup(string name)
-        {
-            Groups newGroup = new Groups(name);
-            if (name == newGroup.GroupName )
-                newGroup.Group.Add(this);
-        }
-        public void GroupMessageNotification(Message message)
-        {
-            //foreach (var item in Groups Unknown)
-             //   OnNewMessage(message);
-        }
-        public void MessageNotification(Message message)
-        {
-            if(message.Send)
+            foreach (Groups a in GroupList)
             {
-                ToConsole($"{message.To} has new message", ConsoleColor.DarkYellow);
+                if (a.GroupName == e.To)
+                {
+                    foreach (var item in a.Group)
+                        NewMessage += Send;
+                }
+                else
+                    Console.WriteLine("The message can not be sent. Group does not exist.");
 
+                Console.WriteLine("Message to group is sent");//проверка
+            }
+            
+
+        }
+         public void CreateGroup(string name)//создание группы
+         {
+            Groups newGroup = new Groups(name);
+            GroupList.Add(newGroup);
+            Console.WriteLine(newGroup.GroupName);//проверка
+         }
+        public void AddToGroup(string name, Account x)//добавление Account в группу
+        {
+            foreach (Groups a in GroupList)
+            {
+                if (a.GroupName == name)
+                {
+                    a.Group.Add(x);
+                }
+                else
+                    Console.WriteLine("Group does not exist, please check group name or create a new group.");
+
+                Console.WriteLine(a.Group.Count());//проверка
+            }
+            
+        }
+        public void GroupMessageNotification(Message message)//уведомление всех Account в группе сообщением
+        {
+            if (message.Send)
+            {
+                foreach (Groups receive in GroupList)
+                    if (message.To.Username == receive.GroupName)
+                        foreach (Account any in receive.Group)
+                            if(any!=message.From)
+                                ToConsole($"OnNewMessage: {message.From.Username}: {message.Preview}", ConsoleColor.DarkYellow);
+            }
+        }
+        public void MessageNotification(Message message)//уведомление всех Account в группе что есть новое сообщение
+        {
+            if (message.Send)
+            {
+                foreach (Groups receive in GroupList)
+                    if (message.To.Username == receive.GroupName)
+                        foreach (Account any in receive.Group)
+                            if (any != message.From)
+                                ToConsole($"You have a new message in {receive.GroupName}", ConsoleColor.DarkYellow);
             }
         }
 
