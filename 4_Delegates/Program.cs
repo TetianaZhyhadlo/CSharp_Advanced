@@ -33,7 +33,7 @@ namespace IteaDelegates
             MathOperation miltiply = (a, b) => a * b;
             MathOperation divide = (arg1, arg2) => arg1 / arg2;
 
-            PersonUpdate update = (p) => p.Q++; // 1 in chain
+            PersonUpdate update = p => p.Q++; // 1 in chain
             update += (p) => p.Age--; // 2 in chain 
             update += update; // 4 in chain
             update += update; // 8 in chain

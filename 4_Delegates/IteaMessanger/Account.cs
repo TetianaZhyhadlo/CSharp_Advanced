@@ -12,7 +12,7 @@ namespace IteaDelegates.IteaMessanger
     public class Account
     {
         public string Username { get; private set; }
-        public List<Message> Messages { get; set; }
+        public List<Message> Messages { get; set; } = new List<Message>();
 
         public event OnSend OnSend;
 
@@ -21,7 +21,6 @@ namespace IteaDelegates.IteaMessanger
         public Account(string username)
         {
             Username = username;
-            Messages = new List<Message>();
             NewMessage += OnNewMessage;
         }
 
@@ -61,6 +60,22 @@ namespace IteaDelegates.IteaMessanger
                     message.From.Username.Equals(username) ? ConsoleColor.Cyan : ConsoleColor.DarkYellow);
             }
             ToConsole($"---{string.Concat(str.Select(x => "-"))}---");
+        }
+
+        public void SubscribeToChannel(Channel channel, bool silentMode)
+        {
+            if (channel.Subscribers.Any(account => account.Username == Username))
+            {
+                ToConsole("You have already subscribed");
+                return;
+            }
+
+            channel.AddSubscriber(this);
+
+            if (silentMode)
+                channel.NewMessage += m => ToConsole($"New message from channel {channel.Name}");
+            else
+                channel.NewMessage += m => ToConsole($"{channel.Name}: {m}");
         }
     }
 }
