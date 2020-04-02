@@ -69,6 +69,7 @@ namespace IteaDelegates.IteaMessanger
         {     
             User = user;
             User.OnSend += SendMessageToGroup;
+            
         }
 
 
