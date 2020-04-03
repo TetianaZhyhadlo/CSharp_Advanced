@@ -102,45 +102,35 @@ namespace IteaLinq
                        
             foreach (Account y in userList)
             {
-                int count = messagelist
+                y.QM = messagelist
                     .Where(x => x.To.Username == y.Username || x.From.Username == y.Username)
                     .Count();
-                ToConsole(count, ConsoleColor.Green);
+                ToConsole(y.QM, ConsoleColor.Green);
             }
 
-            foreach (Account y in userList)
+            var first3 = userList
+                .Where(x => x.QM > 0)
+                .OrderByDescending(x => x.QM)
+                .Take(3);
+            string s=null;
+             foreach(Account x in first3)
             {
-                
-                int count = messagelist
-                    .Where(x => x.To.Username == y.Username || x.From.Username == y.Username)
-                    .Count();
-                int max1 = 0;
-                int max2 = 0;
-                int max3 = 0;
-                string acc1 = null;
-                string acc2 = null;
-                string acc3 = null;
-                if (count > max1)
-                {
-                    max1 = count;
-                    acc1 = y.Username;
-                }
-                else if (count > max2)
-                {
-                    max2 = count;
-                    acc2 = y.Username;
-                }
-                else if (count > max3)
-                {
-                    max3 = count;
-                    acc3 = y.Username;
-                }
-                ToConsole($"{max1},{acc1}\n{max2},{acc2}\n{max3},{acc3}", ConsoleColor.Green);
+                ToConsole($"{x.Username}, {x.QM}", ConsoleColor.DarkBlue);
+                s = x.Username;
             }
-            
 
+            //string s = Console.ReadLine();
+            //messagelist
+            //    .Where(x => x.To.Username == s || x.From.Username == s)
+            //    .OrderByDescending(x => x.Created);
 
-
+            List <Message> usermessage = messagelist
+                .Where(x => x.To.Username == s || x.From.Username == s)
+                .OrderByDescending(x => x.Created)
+                .ToList();
+ 
+             foreach (Message x in usermessage)
+                ToConsole(x.Preview, ConsoleColor.Cyan);
 
 
 

@@ -13,6 +13,7 @@ namespace IteaDelegates.IteaMessanger
     {
         public string Username { get; private set; }
         public List<Groups> GroupList { get; set; }// список груп Account
+        public int QM{ get; set; }
 
         public List<Message> Messages { get; set; }
 
