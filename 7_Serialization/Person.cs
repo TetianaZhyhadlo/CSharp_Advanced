@@ -24,7 +24,8 @@ namespace IteaSerialization
         public string PasswordSalt { get; set; }
         [JsonIgnore]
         [XmlIgnore]
-        public Company Company { get; set; }
+        public Department Department { get; set; }
+        //public Company Company { get; set; }
 
         protected Person() { }
 
@@ -33,6 +34,7 @@ namespace IteaSerialization
             Id = Guid.NewGuid();
             Name = name;
             Age = age;
+ 
         }
 
         public Person(string name, Gender gender, int age, string email)
@@ -42,24 +44,33 @@ namespace IteaSerialization
             Email = email;
         }
 
-        /// <summary>
-        /// Set company for person
-        /// </summary>
-        /// <param name="company">Company to set</param>
-        public void SetCompany(Company company)
+        //public void SetCompany()
+        //{
+        //    Company = Department.Company;
+        //}
+
+        public void SetDepartment(Department department)
         {
-            Company = company;
-            Company.People.Add(this);
+            Department = department;
+            Department.People.Add(this);
+            
         }
 
         public override string ToString()
         {
-            return $"{Id.ToString().Substring(0, 5)}_{Name}: {Gender}, {Age}, {Email}";
+            return $"{Id.ToString().Substring(0, 5)}_{Name}: {Gender}, {Age}, {Email}, {Department.Name}";
         }
 
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+        public override bool Equals(object obj)
+        {
+            if (this == obj)
+                return true;
+            else
+                return false;
         }
     }
 }

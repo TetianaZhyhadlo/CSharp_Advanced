@@ -16,11 +16,11 @@ namespace IteaSerialization
     {
         static void Main(string[] args)
         {
-        //    ReadFromFile("example.txt");
-        //    WriteToFile("example1.txt", "Some data");
-        //    AppendToFile("example1.txt", "1");
-        //    ToConsole(ReadFromFile("example.txt", ""));
-            Person person = new Person("Alex", Gender.Man, 21, "alexs98@gmail.com");
+            //    ReadFromFile("example.txt");
+            //    WriteToFile("example1.txt", "Some data");
+            //    AppendToFile("example1.txt", "1");
+            //    ToConsole(ReadFromFile("example.txt", ""));
+            
             List<Person> people = new List<Person>
             {
                 new Person("Pol", Gender.Man, 37, "pol@gmail.com"),
@@ -29,24 +29,37 @@ namespace IteaSerialization
                 new Person("Harry", Gender.Man, 58, "harry@yahoo.com"),
                 new Person("Germiona", Gender.Woman, 18, "germiona@gmail.com"),
                 new Person("Ron", Gender.Man, 24, "ron@yahoo.com"),
-                new Person("Etc1", Gender.etc, 42, "etc1@yahoo.com"),
-                new Person("Etc2", Gender.etc, 42, "etc2@gmail.com"),
+                new Person("Max", Gender.Man, 54, "max@ukr.net"),
+                new Person("Nevil", Gender.Man, 19, "nevil@gmail.com"),
+                new Person("Snake", Gender.etc, 40, "snake@yahoo.com"),
+                new Person("Voldemar", Gender.etc, 38, "voldemar@spirit.net"),
             };
-
-            Company microsoft = new Company("Microsoft");
-            Company apple = new Company("Apple");
-
+            Company epam = new Company("Epam");
+            Department support = new Department("Support");
+            Department developers = new Department("Developers");
+            Department qa = new Department("QA");
+            List<Department> departments = new List<Department>
+            {
+                 support,
+                 developers,
+                 qa,
+            };
+            departments.ForEach(x => x.SetCompanyForDepartment(epam));
+            
             people.ForEach(x => {
-                if (x.Age < people.Average(a => a.Age))
-                    x.SetCompany(microsoft);
+                if (x.Age < 40 && x.Age >= 25)
+                    x.SetDepartment(developers);
+                else if (x.Age < 25)
+                    x.SetDepartment(support);
                 else
-                    x.SetCompany(apple);
+                    x.SetDepartment(qa);
             }) ;
+            //people.ForEach(x => x.SetCompany());  
 
-            XmlSerialize("exampleXml", people);
-            JsonSerialize("microsoftJson", microsoft);
-            JsonSerialize("appleJson", apple);
-            Company appleFromFile = JsonDeserialize("appleJson");
+
+            XmlSerialize("epamXml", people);
+            JsonSerialize("epamJson", people);
+            Company epamFromFile = JsonDeserialize("epamJson");
         }
 
         #region Serialization
