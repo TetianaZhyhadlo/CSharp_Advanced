@@ -14,14 +14,13 @@ namespace IteaSerialization
     {
         public string Name { get; set; }
         public List<Person> People { get; set; } = new List<Person>();
+
+        [XmlIgnore]
+        [JsonIgnore]
         public Company Company { get; set; }
-        public Guid Id { get; set; }
-        //[XmlIgnore]
-        //[JsonIgnore]
-
-         protected Department() { }
-        
-
+        public Guid Id { get; set; } 
+        protected Department() { }
+     
         public Department(string name)
         {
             Name = name;

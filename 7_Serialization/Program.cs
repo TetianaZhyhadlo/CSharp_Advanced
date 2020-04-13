@@ -56,10 +56,16 @@ namespace IteaSerialization
             }) ;
             //people.ForEach(x => x.SetCompany());  
 
+            //XmlSerialize("epamXml", people);
+            JsonSerialize("epamJson", epam);
 
-            XmlSerialize("epamXml", people);
-            JsonSerialize("epamJson", people);
             Company epamFromFile = JsonDeserialize("epamJson");
+
+            if (epam.Equals(epamFromFile))
+                ToConsole($"Object {epam.Name} the same as after seialization.", ConsoleColor.Blue);
+            else
+                ToConsole($"Object {epam.Name} is different.", ConsoleColor.Red);
+
         }
 
         #region Serialization

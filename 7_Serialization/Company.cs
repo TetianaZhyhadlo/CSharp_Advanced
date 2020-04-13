@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace IteaSerialization
 {
-
+    [Serializable]
     public class Company : IModel
     {
         public Guid Id { get; set; }
