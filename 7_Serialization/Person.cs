@@ -67,10 +67,12 @@ namespace IteaSerialization
         }
         public override bool Equals(object obj)
         {
-            if (this == obj)
-                return true;
-            else
+            if (obj == null)
                 return false;
+            Person obj1 = obj as Person;
+            if (obj1 as Person == null)
+                return false;
+            return (obj1.Name == this.Name && obj1.Id == this.Id && obj1.Age==this.Age && obj1.Department==this.Department && obj1.Gender==this.Gender && obj1.Email==this.Email);
         }
     }
 }

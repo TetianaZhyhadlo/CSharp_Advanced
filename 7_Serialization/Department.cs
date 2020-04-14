@@ -33,10 +33,12 @@ namespace IteaSerialization
         }
         public override bool Equals(object obj)
         {
-            if (this == obj)
-                return true;
-            else
+            if (obj == null)
                 return false;
+            Department obj1 = obj as Department;
+            if (obj1 as Department == null)
+                return false;
+            return (obj1.Name == this.Name && obj1.Id == this.Id && obj1.Company==this.Company);
         }
         public override int GetHashCode()
         {

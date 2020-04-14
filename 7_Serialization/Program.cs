@@ -62,7 +62,7 @@ namespace IteaSerialization
             Company epamFromFile = JsonDeserialize("epamJson");
 
             if (epam.Equals(epamFromFile))
-                ToConsole($"Object {epam.Name} the same as after seialization.", ConsoleColor.Blue);
+                ToConsole($"Object {epam.Name} the same as after serialization.", ConsoleColor.Blue);
             else
                 ToConsole($"Object {epam.Name} is different.", ConsoleColor.Red);
 

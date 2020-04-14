@@ -20,12 +20,14 @@ namespace IteaSerialization
             Id = Guid.NewGuid();
             Name = name;
         }
-        public override bool Equals(object obj)
+        public override bool Equals(Object obj)
         {
-            if (this == obj)
-                return true;
-            else
+            if (obj == null)
                 return false;
+            Company obj1 = obj as Company;
+            if (obj1 as Company == null)
+                return false;
+            return (obj1.Name == this.Name && obj1.Id == this.Id);
         }
         public override int GetHashCode()
         {
