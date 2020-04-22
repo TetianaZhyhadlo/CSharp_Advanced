@@ -164,14 +164,16 @@ namespace IteaAsync
         {
             a *= 2;
         }
-        public static async Task<Apps> GetAppsListAsync()
+        
+        public static async Task<List<Apps>> GetAppsListAsync()
         {
             try
             {
-                var appsAsync = await client.GetAsync($"http://localhost:5000/api/apps/");
+                var appsAsync = await clientApps.GetAsync($"http://localhost:5000/api/apps/");
                 string appsString = await appsAsync.Content.ReadAsStringAsync();
                 Console.WriteLine(appsString);
-                return JsonConvert.DeserializeObject<Apps>(appsString);
+                List<Apps> apList = JsonConvert.DeserializeObject<List<Apps>>(appsString);
+                return apList;
             }
             catch (Exception ex)
             {
@@ -179,5 +181,5 @@ namespace IteaAsync
                 return null;
             }
         }
-    }
+ 
 }
