@@ -17,7 +17,7 @@ namespace IteaAsync
     class Program
     {
         static HttpClient client = new HttpClient();
-
+        static HttpClient clientApps = new HttpClient();
         static List<int> ints = new List<int>();
         static List<string> strings = new List<string>();
         static async Task Main(string[] args)
@@ -163,6 +163,21 @@ namespace IteaAsync
         public static void Double(ref int a)
         {
             a *= 2;
+        }
+        public static async Task<Apps> GetAppsListAsync()
+        {
+            try
+            {
+                var appsAsync = await client.GetAsync($"http://localhost:5000/api/apps/");
+                string appsString = await appsAsync.Content.ReadAsStringAsync();
+                Console.WriteLine(appsString);
+                return JsonConvert.DeserializeObject<Apps>(appsString);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"\n{ex.Message}\n");
+                return null;
+            }
         }
     }
 }
