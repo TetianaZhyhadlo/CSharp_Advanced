@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 
 using IteaAsync;
+using Remotion.Linq.Parsing.Structure.IntermediateModel;
 
 namespace IteaThreads
 {
@@ -12,6 +13,8 @@ namespace IteaThreads
     {
         static int counter = 0;
         static readonly object locker = new object();
+        static List<Thread> threadsList = new List<Thread>();
+        static Semaphore sem = new Semaphore(1, 5);
 
         public struct MyStruct
         {
@@ -21,11 +24,11 @@ namespace IteaThreads
 
         static void Main(string[] args)
         {
-            Process current = Process.GetCurrentProcess();
-            Console.WriteLine($"Id: {current.Id}");
-            Console.WriteLine($"Process name: {current.ProcessName}");
-            Console.WriteLine($"MachineName: {current.MachineName}");
-            Console.WriteLine($"PrivateMemorySize64: {current.PrivateMemorySize64}");
+            //Process current = Process.GetCurrentProcess();
+            //Console.WriteLine($"Id: {current.Id}");
+            //Console.WriteLine($"Process name: {current.ProcessName}");
+            //Console.WriteLine($"MachineName: {current.MachineName}");
+            //Console.WriteLine($"PrivateMemorySize64: {current.PrivateMemorySize64}");
             //Console.WriteLine("Kill Chrome? (Y - yes, else - no)", ConsoleColor.Red);
             //if (Console.ReadKey().Key == ConsoleKey.Y)
             //    Process
@@ -50,20 +53,21 @@ namespace IteaThreads
             //Thread.CurrentThread.Name = "Main";
             //Thread.CurrentThread.Priority = ThreadPriority.Highest;
 
-            ThreadStart threadStart1 = Write;
 
-            Thread thread1 = new Thread(threadStart1)
-            {
-                Name = "Write1"
-            };
+            //ThreadStart threadStart1 = Write;
 
-            Thread thread2 = new Thread(new ThreadStart(Write))
-            {
-                Name = "Write2"
-            };
+            //Thread thread1 = new Thread(threadStart1)
+            //{
+            //    Name = "Write1"
+            //};
 
-            thread1.Start();
-            thread2.Start();
+            //Thread thread2 = new Thread(new ThreadStart(Write))
+            //{
+            //    Name = "Write2"
+            //};
+
+            //thread1.Start();
+            //thread2.Start();
 
             //new Thread(new ParameterizedThreadStart(WriteFromTo)) // new Thread(WriteFromTo)
             //{
@@ -96,6 +100,67 @@ namespace IteaThreads
             //mt2.thread.Join();
 
             //Console.ReadLine();
+            
+
+            Thread first = new Thread(new ThreadStart(Sum));
+            first.Name = "Sum 1";
+            first.Priority = ThreadPriority.Lowest;
+            Thread second = new Thread(new ThreadStart(Sum));
+            second.Name = "Sum 2";
+            second.Priority = ThreadPriority.BelowNormal;
+            Thread third = new Thread(new ThreadStart(Sum));
+            third.Name = "Sum 3";
+            third.Priority = ThreadPriority.Normal;
+            Thread fourth = new Thread(new ThreadStart(Sum));
+            fourth.Name = "Sum 4";
+            fourth.Priority = ThreadPriority.AboveNormal;
+            Thread fifth = new Thread(new ThreadStart(Sum));
+            fifth.Name = "Sum 5";
+            fifth.Priority = ThreadPriority.Highest;
+                        
+            threadsList.Add(first);
+            threadsList.Add(second);
+            threadsList.Add(third);
+            threadsList.Add(fourth);
+            threadsList.Add(fifth);
+
+            threadsList
+                .ForEach(x => x.Start());
+            Result();
+
+            threadsList
+              .Where(x => x.IsAlive != true)
+              .ToList()
+              .ForEach(x => x.Start());
+            Result();
+            
+
+        }
+        public static void Sum()
+        {
+            lock (locker)
+            {
+                int sum = 0;
+                //sem.WaitOne();
+                Thread thread = Thread.CurrentThread;
+                for (int i = 0; i < 100; i++)
+                {
+                    sum = sum + i;
+                    Console.WriteLine($"Thread: {thread.Name}, Total: {sum}.");
+                }
+                //sem.Release();
+            }
+
+        }
+        public static void Result()
+        {
+            foreach (Thread x in threadsList)
+            {
+                if (!x.IsAlive)
+                    Console.WriteLine($"Thread - {x.Name} is finished");
+                else
+                    Console.WriteLine($"Thread - {x.Name} in progress");
+            }
         }
 
         public static void Write()
