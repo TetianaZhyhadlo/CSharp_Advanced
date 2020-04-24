@@ -14,6 +14,7 @@ namespace IteaThreads
         static int counter = 0;
         static readonly object locker = new object();
         static List<Thread> threadsList = new List<Thread>();
+        static List<Thread> threadsList1 = new List<Thread>();
         static Semaphore sem = new Semaphore(1, 5);
 
         public struct MyStruct
@@ -128,7 +129,29 @@ namespace IteaThreads
                 .ForEach(x => x.Start());
             Result();
 
-            threadsList
+            Thread t1 = new Thread(new ThreadStart(Sum));
+            t1.Name = "1";
+            t1.Priority = ThreadPriority.Lowest;
+            Thread t2 = new Thread(new ThreadStart(Sum));
+            t2.Name = "2";
+            t2.Priority = ThreadPriority.BelowNormal;
+            Thread t3 = new Thread(new ThreadStart(Sum));
+            t3.Name = "3";
+            t3.Priority = ThreadPriority.Normal;
+            Thread t4 = new Thread(new ThreadStart(Sum));
+            t4.Name = "4";
+            t4.Priority = ThreadPriority.AboveNormal;
+            Thread t5 = new Thread(new ThreadStart(Sum));
+            t5.Name = "5";
+            t5.Priority = ThreadPriority.Highest;
+
+            threadsList.Add(t1);
+            threadsList.Add(t3);
+            threadsList.Add(t4);
+            threadsList.Add(t5);
+            threadsList.Add(t2);
+
+            threadsList1
               .Where(x => x.IsAlive != true)
               .ToList()
               .ForEach(x => x.Start());
